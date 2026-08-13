@@ -69,7 +69,11 @@ class KeyReader:
     """
 
     def __init__(self):
-        self.fd = os.open('/dev/tty', os.O_RDONLY)
+        try:
+            self.fd = os.open('/dev/tty', os.O_RDONLY)
+        except OSError:
+            raise SystemExit('No keyboard here. Start this node in a terminal '
+                             'you can type into.')
         self.saved = termios.tcgetattr(self.fd)
         tty.setcbreak(self.fd)
 
@@ -100,9 +104,9 @@ def main():
     if not user:
         raise SystemExit('USER_NAME is not set. Run: export USER_NAME=your_name')
 
+    keys = KeyReader()
     rclpy.init()
     node = ControlRoom(user, vehicle_name)
-    keys = KeyReader()
 
     try:
         while rclpy.ok():

@@ -1,9 +1,12 @@
 # IMAGE       our image, the one this Makefile builds. Shows up in "docker images".
+#             The same for everybody, it is built from the requirements files.
 # BASE_IMAGE  the image we start FROM. Lives on Docker Hub. We never build it.
-# NAME        the name of the running container.
+# NAME        the name of the running container. One per person, so that two
+#             students on one robot do not end up in the same container.
 IMAGE      ?= duckie-image
 BASE_IMAGE ?= spgc/duckiebot-base-image:latest
-NAME       ?= duckiebot
+USER_NAME  ?= student
+NAME       ?= duckiebot-$(USER_NAME)
 
 # The folder this Makefile sits in, no matter where you run make from.
 REPO_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
@@ -25,11 +28,14 @@ build:
 up:
 	docker start $(NAME) 2>/dev/null || \
 	docker run -d --name $(NAME) --network=host --privileged \
+		-e VEHICLE_NAME -e USER_NAME \
 		-v /dev/shm:/dev/shm -v $(REPO_DIR):/workspace $(IMAGE) sleep infinity
 
 # Open a shell inside the container. Run it in as many terminals as you like.
+# "-e VEHICLE_NAME" with no value hands over the value from your own shell,
+# because docker exec does not inherit your environment by itself.
 shell: up
-	docker exec -it $(NAME) bash
+	docker exec -it -e VEHICLE_NAME -e USER_NAME $(NAME) bash
 
 # Same as "make shell". Starts the container if it is not running yet.
 run: shell
