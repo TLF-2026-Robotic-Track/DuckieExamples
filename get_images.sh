@@ -10,7 +10,7 @@
 set -e
 
 ROBOT=${1:?usage: ./get_images.sh <robot name> [repo folder on the robot]}
-REPO=${2:-duckiebot-examples}
+REPO=${2:-DuckieExamples}
 DEST=./images_from_$ROBOT
 
 mkdir -p "$DEST"

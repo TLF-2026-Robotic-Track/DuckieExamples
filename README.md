@@ -162,7 +162,7 @@ this **ON YOUR OWN COMPUTER**, not on the robot:
 Or in one line, without the script:
 
 ```bash
-scp 'duckie@duckie03.local:~/duckiebot-examples/images/*.jpg' .
+scp 'duckie@duckie03.local:~/DuckieExamples/images/*.jpg' .
 ```
 
 Mind the quotes: they stop your own shell from expanding `*.jpg` before it
