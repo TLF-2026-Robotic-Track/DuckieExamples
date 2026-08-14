@@ -6,6 +6,7 @@ Publishes to /<VEHICLE_NAME>/led_pattern.
 import os
 
 import rclpy
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from std_msgs.msg import ColorRGBA
 
@@ -53,7 +54,7 @@ def main():
     node = Blinker(vehicle_name)
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, ExternalShutdownException):
         pass
     finally:
         node.destroy_node()
