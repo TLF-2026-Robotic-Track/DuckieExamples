@@ -227,3 +227,7 @@ Wheel speeds go from `-1.0` to `1.0`. Positive is forward, `0.0` stops.
 Useful robot topics: `range` (distance sensor), `image/compressed` (camera),
 `tick` (wheel encoders), `temperature`, `wheels_cmd`, `led_pattern`,
 `emergency_stop`.
+
+
+## For Admins
+[Git Propagate Changes from common repo](Propagate_changes.md)
